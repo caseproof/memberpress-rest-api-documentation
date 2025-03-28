@@ -1,0 +1,704 @@
+{
+  "info": {
+    "_postman_id": "e8a0f1a5-9c35-4e11-a0c0-d5b1c4a7c3b9",
+    "name": "MemberPress API",
+    "description": "A collection of requests for the MemberPress REST API.",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Verify Authentication",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            },
+            "description": "Verifies that your API key is valid and working correctly."
+          },
+          "response": []
+        },
+        {
+          "name": "Get User Permissions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me/permissions",
+              "host": ["{{base_url}}"],
+              "path": ["me", "permissions"]
+            },
+            "description": "Gets permissions for the authenticated user. Note: This endpoint may not be available in all installations."
+          },
+          "response": []
+        }
+      ],
+      "description": "Authentication-related endpoints for the MemberPress API.",
+      "event": [
+        {
+          "listen": "prerequest",
+          "script": {
+            "type": "text/javascript",
+            "exec": [""]
+          }
+        },
+        {
+          "listen": "test",
+          "script": {
+            "type": "text/javascript",
+            "exec": [
+              "pm.test(\"Status code is 200\", function () {",
+              "    pm.response.to.have.status(200);",
+              "});",
+              "",
+              "pm.test(\"Response has success: true\", function () {",
+              "    var jsonData = pm.response.json();",
+              "    pm.expect(jsonData.success).to.eql(true);",
+              "});"
+            ]
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "List Members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members?page=1&per_page=10",
+              "host": ["{{base_url}}"],
+              "path": ["members"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1"
+                },
+                {
+                  "key": "per_page",
+                  "value": "10"
+                }
+              ]
+            },
+            "description": "Lists all members in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Member",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members/{{member_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["members", "{{member_id}}"]
+            },
+            "description": "Gets a specific member by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Member",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"email\": \"new_member@example.com\",\n  \"username\": \"new_member\",\n  \"password\": \"secure_password\",\n  \"first_name\": \"New\",\n  \"last_name\": \"Member\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": ["{{base_url}}"],
+              "path": ["members"]
+            },
+            "description": "Creates a new member."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Member",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"first_name\": \"Updated\",\n  \"last_name\": \"Name\",\n  \"address1\": \"123 Main St\",\n  \"city\": \"Anytown\",\n  \"state\": \"CA\",\n  \"zip\": \"12345\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/members/{{member_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["members", "{{member_id}}"]
+            },
+            "description": "Updates an existing member."
+          },
+          "response": []
+        },
+        {
+          "name": "Delete Member",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members/{{member_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["members", "{{member_id}}"]
+            },
+            "description": "Deletes a member. USE WITH CAUTION!"
+          },
+          "response": []
+        },
+        {
+          "name": "Search Members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members?search[email]=user@example.com",
+              "host": ["{{base_url}}"],
+              "path": ["members"],
+              "query": [
+                {
+                  "key": "search[email]",
+                  "value": "user@example.com"
+                }
+              ]
+            },
+            "description": "Searches for members by email."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing members (users) in MemberPress."
+    },
+    {
+      "name": "Memberships",
+      "item": [
+        {
+          "name": "List Memberships",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/memberships",
+              "host": ["{{base_url}}"],
+              "path": ["memberships"]
+            },
+            "description": "Lists all memberships (products) in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Membership",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/memberships/{{membership_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["memberships", "{{membership_id}}"]
+            },
+            "description": "Gets a specific membership by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Membership",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Premium Monthly Plan\",\n  \"price\": 29.99,\n  \"period\": 1,\n  \"period_type\": \"months\",\n  \"trial\": false,\n  \"limit_cycles\": false\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/memberships",
+              "host": ["{{base_url}}"],
+              "path": ["memberships"]
+            },
+            "description": "Creates a new membership plan."
+          },
+          "response": []
+        },
+        {
+          "name": "Update Membership",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated Premium Plan\",\n  \"price\": 39.99\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/memberships/{{membership_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["memberships", "{{membership_id}}"]
+            },
+            "description": "Updates an existing membership plan."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing membership products in MemberPress."
+    },
+    {
+      "name": "Transactions",
+      "item": [
+        {
+          "name": "List Transactions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/transactions",
+              "host": ["{{base_url}}"],
+              "path": ["transactions"]
+            },
+            "description": "Lists all transactions in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Transaction",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/transactions/{{transaction_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["transactions", "{{transaction_id}}"]
+            },
+            "description": "Gets a specific transaction by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"member\": {{member_id}},\n  \"membership\": {{membership_id}},\n  \"amount\": 25.00,\n  \"status\": \"complete\",\n  \"gateway\": \"manual\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/transactions",
+              "host": ["{{base_url}}"],
+              "path": ["transactions"]
+            },
+            "description": "Creates a new transaction."
+          },
+          "response": []
+        },
+        {
+          "name": "Refund Transaction",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/transactions/{{transaction_id}}/refund",
+              "host": ["{{base_url}}"],
+              "path": ["transactions", "{{transaction_id}}", "refund"]
+            },
+            "description": "Refunds a transaction."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing transactions in MemberPress."
+    },
+    {
+      "name": "Subscriptions",
+      "item": [
+        {
+          "name": "List Subscriptions",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/subscriptions",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions"]
+            },
+            "description": "Lists all subscriptions in the system."
+          },
+          "response": []
+        },
+        {
+          "name": "Get Subscription",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/subscriptions/{{subscription_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}"]
+            },
+            "description": "Gets a specific subscription by ID."
+          },
+          "response": []
+        },
+        {
+          "name": "Create Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"member\": {{member_id}},\n  \"membership\": {{membership_id}},\n  \"status\": \"active\",\n  \"period\": 1,\n  \"period_type\": \"months\",\n  \"gateway\": \"manual\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/subscriptions",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions"]
+            },
+            "description": "Creates a new subscription."
+          },
+          "response": []
+        },
+        {
+          "name": "Cancel Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/subscriptions/{{subscription_id}}/cancel",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "cancel"]
+            },
+            "description": "Cancels a subscription."
+          },
+          "response": []
+        },
+        {
+          "name": "Suspend Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/subscriptions/{{subscription_id}}/suspend",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "suspend"]
+            },
+            "description": "Suspends a subscription."
+          },
+          "response": []
+        },
+        {
+          "name": "Resume Subscription",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/subscriptions/{{subscription_id}}/resume",
+              "host": ["{{base_url}}"],
+              "path": ["subscriptions", "{{subscription_id}}", "resume"]
+            },
+            "description": "Resumes a suspended subscription."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing subscriptions in MemberPress."
+    },
+    {
+      "name": "Events",
+      "item": [
+        {
+          "name": "List Events",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/events",
+              "host": ["{{base_url}}"],
+              "path": ["events"]
+            },
+            "description": "Lists all events in the system."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for accessing event data in MemberPress."
+    },
+    {
+      "name": "Webhooks",
+      "item": [
+        {
+          "name": "Subscribe to Events",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              },
+              {
+                "key": "Content-Type",
+                "value": "application/json",
+                "type": "text"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"url\": \"https://your-webhook-endpoint.com/handler\",\n  \"event\": \"transaction-completed\"\n}"
+            },
+            "url": {
+              "raw": "{{base_url}}/webhooks/subscribe",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks", "subscribe"]
+            },
+            "description": "Subscribe to MemberPress events via webhooks."
+          },
+          "response": []
+        },
+        {
+          "name": "Unsubscribe from Events",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/webhooks/unsubscribe/{{webhook_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["webhooks", "unsubscribe", "{{webhook_id}}"]
+            },
+            "description": "Unsubscribe from MemberPress events via webhooks."
+          },
+          "response": []
+        }
+      ],
+      "description": "Endpoints for managing webhook subscriptions in MemberPress."
+    }
+  ],
+  "event": [
+    {
+      "listen": "prerequest",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    },
+    {
+      "listen": "test",
+      "script": {
+        "type": "text/javascript",
+        "exec": [""]
+      }
+    }
+  ],
+  "variable": [
+    {
+      "key": "base_url",
+      "value": "http://localhost:10044/wp-json/mp/v1",
+      "type": "string"
+    },
+    {
+      "key": "api_key",
+      "value": "YOUR_API_KEY",
+      "type": "string"
+    },
+    {
+      "key": "member_id",
+      "value": "4",
+      "type": "string"
+    },
+    {
+      "key": "membership_id",
+      "value": "81",
+      "type": "string"
+    },
+    {
+      "key": "transaction_id",
+      "value": "2",
+      "type": "string"
+    },
+    {
+      "key": "subscription_id",
+      "value": "1",
+      "type": "string"
+    }
+  ]
+}

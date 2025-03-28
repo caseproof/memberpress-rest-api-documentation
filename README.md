@@ -20,12 +20,19 @@
 7. [Pagination](#pagination)
 8. [Missing Endpoints and Alternatives](#missing-endpoints-and-alternatives)
 9. [Data Modeling and Relationships](#data-modeling-and-relationships)
-10. [Code Examples](#code-examples)
+10. [Testing with Postman](#testing-with-postman)
+    - [Setting Up Postman](#setting-up-postman)
+    - [Creating a Collection](#creating-a-collection)
+    - [Authentication Setup](#authentication-setup)
+    - [Testing Endpoints](#testing-endpoints)
+    - [Using Environment Variables](#using-environment-variables)
+    - [Importing the Postman Collection](#importing-the-postman-collection)
+11. [Code Examples](#code-examples)
     - [cURL Examples](#curl-examples)
     - [PHP Examples](#php-examples)
     - [JavaScript Examples](#javascript-examples)
-11. [Legacy Integration](#legacy-integration)
-12. [WordPress REST API Resources](#wordpress-rest-api-resources)
+12. [Legacy Integration](#legacy-integration)
+13. [WordPress REST API Resources](#wordpress-rest-api-resources)
 
 ## Introduction
 
@@ -688,6 +695,202 @@ Understanding the relationships between resources is crucial for effectively usi
    - One member (subscriber)
    - One membership (subscribed product)
    - Multiple transactions (recurring payments)
+
+## Testing with Postman
+
+[Postman](https://www.postman.com/) is a popular API client that makes it easy to test, document, and share APIs. This section explains how to set up and use Postman to test the MemberPress API.
+
+### Setting Up Postman
+
+1. **Install Postman**:
+   - Download and install Postman from the [official website](https://www.postman.com/downloads/)
+   - Create an account or sign in if you already have one
+
+2. **Understand the Interface**: 
+   - **Collections**: Groups of saved requests
+   - **Environments**: Sets of variables for different environments (e.g., development, production)
+   - **Request Builder**: Where you create and configure API requests
+   - **Response Viewer**: Where you view API responses
+
+### Creating a Collection
+
+1. **Create a New Collection**:
+   - Click "New" > "Collection"
+   - Name it "MemberPress API"
+   - Add a description like "API endpoints for MemberPress"
+   - Click "Create"
+
+2. **Add Folders to Organize Endpoints**:
+   - Right-click on the collection and select "Add Folder"
+   - Create folders for different resource types (Members, Memberships, Transactions, etc.)
+
+### Authentication Setup
+
+1. **Set Up Authentication**:
+   - Click on the "MemberPress API" collection
+   - Go to the "Authorization" tab
+   - Select "API Key" from the Type dropdown
+   - Set "Key" to "Authorization"
+   - Set "Value" to your MemberPress API key
+   - Set "Add to" to "Header"
+   - Click "Save"
+
+2. **Create Authorization Helper**:
+   - Create a new request named "Verify Authentication"
+   - Set the method to GET
+   - Set the URL to `{{base_url}}/me` (we'll define the base_url variable later)
+   - Click "Save"
+
+### Testing Endpoints
+
+1. **Create Member Request**:
+   - In the "Members" folder, create a new request
+   - Name it "List Members"
+   - Set the method to GET
+   - Set the URL to `{{base_url}}/members`
+   - Click "Save"
+
+2. **Create Membership Request**:
+   - In the "Memberships" folder, create a new request
+   - Name it "Get Specific Membership"
+   - Set the method to GET
+   - Set the URL to `{{base_url}}/memberships/{{membership_id}}`
+   - Click "Save"
+
+3. **Create a POST Request**:
+   - In the "Members" folder, create a new request
+   - Name it "Create Member"
+   - Set the method to POST
+   - Set the URL to `{{base_url}}/members`
+   - Go to the "Body" tab and select "raw" and "JSON"
+   - Add a JSON body:
+     ```json
+     {
+       "email": "new_member@example.com",
+       "username": "new_member",
+       "password": "secure_password",
+       "first_name": "New",
+       "last_name": "Member"
+     }
+     ```
+   - Click "Save"
+
+### Using Environment Variables
+
+1. **Create an Environment**:
+   - Click on the "Environments" tab in the left sidebar
+   - Click "Add" to create a new environment
+   - Name it "MemberPress Dev"
+
+2. **Add Variables**:
+   - Add a variable named "base_url" with the value "http://localhost:10044/wp-json/mp/v1" (adjust as needed)
+   - Add a variable named "api_key" with your MemberPress API key
+   - Add variables for common IDs like "membership_id" or "member_id"
+   - Click "Save"
+
+3. **Use the Environment**:
+   - Select "MemberPress Dev" from the environment dropdown in the top right
+   - Your requests will now use these variables
+
+4. **Create Multiple Environments**:
+   - You can create different environments for development, staging, and production
+   - This allows you to easily switch between different MemberPress installations
+
+### Importing the Postman Collection
+
+To make it easier to get started, we've created a Postman Collection with pre-configured requests for the MemberPress API. You can import this collection to quickly begin testing the API.
+
+1. **Download the Collection**:
+   - Download the [MemberPress API Postman Collection](./memberpress-api-postman-collection.json) file included in this repository
+
+2. **Import into Postman**:
+   - In Postman, click "Import" in the top left
+   - Select the downloaded file
+   - Click "Import"
+
+3. **Configure Your Environment**:
+   - Create a new environment as described above
+   - Set the "base_url" and "api_key" variables
+   - Start testing the API!
+
+#### Example Postman Collection
+
+Below is a snippet of what the Postman Collection JSON looks like. You can use this as a reference to create your own collection:
+
+```json
+{
+  "info": {
+    "name": "MemberPress API",
+    "schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+  },
+  "item": [
+    {
+      "name": "Authentication",
+      "item": [
+        {
+          "name": "Verify Authentication",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/me",
+              "host": ["{{base_url}}"],
+              "path": ["me"]
+            }
+          }
+        }
+      ]
+    },
+    {
+      "name": "Members",
+      "item": [
+        {
+          "name": "List Members",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members",
+              "host": ["{{base_url}}"],
+              "path": ["members"]
+            }
+          }
+        },
+        {
+          "name": "Get Member",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Authorization",
+                "value": "{{api_key}}",
+                "type": "text"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/members/{{member_id}}",
+              "host": ["{{base_url}}"],
+              "path": ["members", "{{member_id}}"]
+            }
+          }
+        }
+      ]
+    }
+  ]
+}
+```
 
 ## Code Examples
 
