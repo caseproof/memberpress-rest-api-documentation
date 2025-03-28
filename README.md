@@ -25,6 +25,7 @@
     - [PHP Examples](#php-examples)
     - [JavaScript Examples](#javascript-examples)
 11. [Legacy Integration](#legacy-integration)
+12. [WordPress REST API Resources](#wordpress-rest-api-resources)
 
 ## Introduction
 
@@ -921,3 +922,35 @@ $subscriptions = $user->active_product_subscriptions();
 // Record custom event
 MeprEvent::record('custom-event-name', $user);
 ```
+
+## WordPress REST API Resources
+
+The MemberPress API is built on top of the WordPress REST API framework. Understanding the WordPress REST API can help you work more effectively with the MemberPress API. Here are some valuable resources:
+
+### Official WordPress REST API Documentation
+
+- [Using the REST API](https://developer.wordpress.org/rest-api/using-the-rest-api/) - A guide on getting started with the WordPress REST API
+- [WordPress REST API Handbook](https://developer.wordpress.org/rest-api/) - Complete documentation of the WordPress REST API
+- [Key Concepts](https://developer.wordpress.org/rest-api/key-concepts/) - Understanding the fundamental concepts of the REST API
+- [Frequently Asked Questions](https://developer.wordpress.org/rest-api/frequently-asked-questions/) - Answers to common questions about the WordPress REST API
+
+### Additional Resources
+
+- **Authentication** - The MemberPress API uses a custom authentication method, but it's built on WordPress authentication principles explained in the [Authentication section](https://developer.wordpress.org/rest-api/using-the-rest-api/authentication/) of the WordPress REST API handbook.
+  
+- **Schema** - WordPress REST API uses a [schema](https://developer.wordpress.org/rest-api/extending-the-rest-api/schema/) for defining the structure of API responses. Understanding this will help you interpret MemberPress API responses.
+  
+- **Custom Endpoints** - MemberPress defines custom endpoints using the WordPress REST API's [Extending the REST API](https://developer.wordpress.org/rest-api/extending-the-rest-api/) framework.
+
+- **Parameter Handling** - MemberPress follows WordPress REST API conventions for [parameters](https://developer.wordpress.org/rest-api/using-the-rest-api/global-parameters/), including pagination and filtering.
+
+### Understanding the Relationship
+
+The MemberPress API follows these patterns from the WordPress REST API:
+
+1. **URL Structure**: `/wp-json/namespace/version/resource`
+2. **HTTP Methods**: GET for retrieval, POST for creation, PUT/PATCH for updates, DELETE for removal
+3. **Response Format**: JSON responses with consistent structures
+4. **Error Handling**: Standard HTTP status codes and error messages
+
+Familiarity with the WordPress REST API will make working with the MemberPress API more intuitive and enable you to troubleshoot issues more effectively.
