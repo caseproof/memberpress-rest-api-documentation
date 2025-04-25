@@ -1,0 +1,75 @@
+# llms.txt for MemberPress REST API Documentation
+format = "https://llmstxt.org/"
+format_version = "0.0.1"
+
+# Basic repository information
+[repo]
+description = """
+Documentation for the MemberPress WordPress plugin's REST API. This repository contains 
+endpoint references, authentication methods, code examples, and integration guides for
+developers working with the MemberPress membership plugin. The documentation explains
+how to access and manipulate MemberPress data programmatically through the REST API
+provided by the MemberPress Developer Tools add-on.
+"""
+primary_language = "English"
+repository_type = "documentation"
+
+# Specific areas where LLMs are allowed to use content from this repository
+[allowed]
+purpose = """
+To help WordPress developers understand and implement integrations with the MemberPress
+plugin's REST API. This includes explaining endpoint usage, generating code samples,
+troubleshooting implementation issues, and providing guidance on best practices.
+"""
+domains = [
+  "WordPress plugin development",
+  "API integration",
+  "WordPress REST API extensions",
+  "Membership site development"
+]
+
+# How LLMs should use the documentation in this repository
+[usage]
+reference = true
+instruction = true
+incorporate = true
+example_code = true
+
+# Attribution preferences
+[attribution]
+required = true
+example = """
+This information is based on the MemberPress REST API Documentation.
+For the most current documentation, please refer to the official MemberPress Developer Documentation.
+"""
+
+# Additional policies or notes
+[policy]
+note = """
+1. API Implementation Guidelines:
+   - These endpoints are implemented by the WordPress plugin and require the MemberPress Developer Tools add-on
+   - Authentication works through WordPress API keys
+   - All endpoints use the base URL: `/wp-json/mp/v1/`
+   - This documentation describes self-hosted usage, not a SaaS service
+
+2. Documentation Usage:
+   - Code examples provided are for educational purposes
+   - Endpoints may vary based on plugin version
+   - Examples should be customized for specific WordPress implementations
+   - All API interactions occur within the user's own WordPress installation
+"""
+
+# Prohibited uses
+[prohibited]
+purpose = """
+Creating tools or documentation that misrepresent plugin functionality or capabilities
+"""
+
+# Documentation structure
+[directories]
+"/" = "Root directory containing main API documentation and examples"
+"/memberpress-api-postman-collection.json" = "Postman collection for testing API endpoints"
+
+# Related resources
+[see_also]
+"WordPress REST API Documentation" = "https://developer.wordpress.org/rest-api/"
